@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108" fill="none">
+  <defs>
+    <linearGradient id="omia-ring-grad" x1="16" y1="16" x2="92" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B5A"/>
+      <stop offset="22%" stop-color="#F2B33D"/>
+      <stop offset="46%" stop-color="#3CC6B5"/>
+      <stop offset="72%" stop-color="#4FA3F7"/>
+      <stop offset="100%" stop-color="#F2669B"/>
+    </linearGradient>
+  </defs>
+  <rect width="108" height="108" rx="26" fill="#0A0A0C"/>
+  <circle cx="54" cy="54" r="30" stroke="url(#omia-ring-grad)" stroke-width="10"/>
+</svg>

@@ -1,7 +1,8 @@
 /* Minimal interactive behaviour for Omia Player site:
  * - accessible mobile navigation drawer
  * - four-media-types tab switcher with Lumen artwork glow
- * - live Lumen style & accent swatch preview
+ * - before/after cover & tag lookup preview toggle
+ * - live Lumen & Stage theme + accent swatch preview
  */
 
 (() => {
@@ -83,28 +84,46 @@
     });
   }
 
-  // Live Lumen theme & accent preview
+  // Before/After cover & tag lookup preview
+  const tagfix = document.querySelector("[data-tagfix]");
+  if (tagfix) {
+    const tfButtons = Array.from(tagfix.querySelectorAll("[data-tagfix-mode]"));
+    const tfBadge = tagfix.querySelector("[data-tagfix-badge]");
+    tfButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const state = btn.getAttribute("data-tagfix-mode");
+        tagfix.setAttribute("data-state", state);
+        tfButtons.forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+        if (tfBadge) {
+          tfBadge.textContent = state === "before" ? "3 messy files" : "3 matches ready";
+        }
+      });
+    });
+  }
+
+  // Live Lumen & Stage theme + accent preview
   const preview = document.querySelector("[data-lumen-preview]");
-  const modeButtons = Array.from(document.querySelectorAll("[data-preview-mode]"));
+  const styleButtons = Array.from(document.querySelectorAll("[data-preview-style]"));
   const swatches = Array.from(document.querySelectorAll("[data-preview-accent]"));
   const statusEl = document.querySelector("[data-preview-status]");
+  const dotEl = document.querySelector("[data-preview-dot]");
 
   if (preview) {
-    let activeModeLabel = "Lumen dark";
+    let activeStyleLabel = "Lumen dark";
     let activeAccentLabel = "Orange";
 
     const updateStatus = () => {
       if (statusEl) {
-        statusEl.textContent = `${activeModeLabel} · ${activeAccentLabel}`;
+        statusEl.textContent = `${activeStyleLabel} · ${activeAccentLabel}`;
       }
     };
 
-    modeButtons.forEach((btn) => {
+    styleButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        const mode = btn.getAttribute("data-preview-mode");
-        activeModeLabel = btn.textContent.trim();
-        preview.setAttribute("data-mode", mode);
-        modeButtons.forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+        const styleId = btn.getAttribute("data-preview-style");
+        activeStyleLabel = btn.textContent.trim();
+        preview.setAttribute("data-style", styleId);
+        styleButtons.forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
         updateStatus();
       });
     });
@@ -116,6 +135,9 @@
         activeAccentLabel = btn.getAttribute("aria-label") || "Accent";
         preview.style.setProperty("--pv-accent", hex);
         preview.style.setProperty("--pv-accent-ink", ink);
+        if (dotEl) {
+          dotEl.style.background = hex;
+        }
         swatches.forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
         updateStatus();
       });

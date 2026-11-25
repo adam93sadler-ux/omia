@@ -1550,3 +1550,7 @@ main {
     scroll-behavior: auto !important;
   }
 }
+
+/* Play listing not live yet: the Play buttons read "Coming soon" and do nothing */
+.btn--soon { cursor: default; }
+.btn--soon:hover { transform: none; filter: none; }
